@@ -76,6 +76,12 @@ app.get("/products/:id", async(req, res) => {
     res.send(result);
 });
 
+app.post("/products", async(req, res) => {
+    const data = req.body;
+    const result = await productsCollection.insertOne(data);
+    res.send(result);
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
