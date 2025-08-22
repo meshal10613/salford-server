@@ -39,6 +39,22 @@ app.get("/users", async(req, res) => {
     res.send(result);
 });
 
+app.get("/users/:email", async(req, res) => {
+    const {email} = req.params;
+    const result = await usersCollection.findOne({email});
+    res.send(result);
+});
+
+app.post("/users", async(req, res) => {
+    const data = req.body;
+    const isEmail = await usersCollection.findOne({email: data.email});
+    if(isEmail){
+        return res.json({message: "user already created"})
+    };
+    const result = await usersCollection.insertOne(data);
+    res.send(result);
+});
+
 // productsCollection
 app.get("/products", async(req, res) => {
     const { feature } = req.query;
